@@ -1,0 +1,66 @@
+package LinkedList;
+
+public class ReverseList {
+    class Node {
+        int data;
+        Node next;
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public Node head;
+    public Node tail;
+    public static int size = 0;
+    // Add node in list function...
+    
+    public void addNode(int data) {
+        Node newNode = new Node(data);
+        size++;
+        if (head == null) {
+            head = tail = newNode;
+            return;
+        }
+        tail.next = newNode;
+        tail = newNode;
+    }
+    // Print list
+    public void listPrint() {
+        Node node = head;
+        if (node == null) {
+            System.out.print("LL is empty");
+        }
+        while (node != null) {
+            System.out.print(node.data + "->");
+            node = node.next;
+        }
+        System.out.println("null");
+    }
+     // Reverse function...
+    public void reverseNode() {
+        Node prev = null;
+        Node curr = tail = head;
+        Node next;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+    }
+
+    public static void main(String[] args) {
+        ReverseList ll = new ReverseList();
+        ll.addNode(1);
+        ll.addNode(2);
+        ll.addNode(3);
+        ll.addNode(4);
+        ll.addNode(5);
+        ll.listPrint();
+        ll.reverseNode();
+        ll.listPrint();
+    }
+}
