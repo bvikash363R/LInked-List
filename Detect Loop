@@ -1,0 +1,171 @@
+//Write a program in cpp make detect loop and check 
+#include<iostream>
+using namespace std;
+class Data
+{
+    Data *next;
+    int n;
+public:
+    Data *head=nullptr,*temp,*move;
+    void memory();
+    void Add();
+    void print();
+    void make_delected(int x);
+    bool detect_loop();
+    void fixed_detect_loop();
+    int length();
+    int count(Data *head);
+};
+void Data::memory(){
+    temp=new(Data);
+    if(temp==nullptr){
+        cerr<<"Memory can't be allocted !";
+        return;
+    }
+    int m;
+    cout<<"Enter no";
+    cin>>m;
+    temp->n=m;
+    temp->next=nullptr;
+}
+// Add node in list..
+void Data::Add(){
+    memory();
+    if(head==nullptr){
+        head=move=temp;
+        return;
+    }
+    move->next=temp;
+    move=temp;
+}
+// Print list...
+void Data::print(){
+    Data *show=head;
+    while (show!=nullptr)
+    {
+        cout<<show->n<<" ";
+        show=show->next;
+    }  
+}
+//Create Delected loop
+void Data::make_delected(int x){
+    Data *run=head;
+    Data *run2;
+    int c=0;
+    while (run->next!=nullptr)
+    {
+        c++;
+        if(c==x){
+            run2=run;
+        }
+        run=run->next;  
+    }
+    run->next=run2;
+}
+// Check list Delected or not 
+bool Data::detect_loop(){
+    Data *slow_ptr,*fast_ptr;
+    slow_ptr=head;
+    fast_ptr=head;
+    while (fast_ptr!=nullptr && fast_ptr->next!=nullptr)
+    {
+        slow_ptr=slow_ptr->next;
+        fast_ptr=fast_ptr->next->next;
+        if(slow_ptr==fast_ptr){
+            return true;
+        }
+    }
+    return false;
+}
+// Remove Detect Loop...
+void Data::fixed_detect_loop(){
+    Data *slow_ptr=head,*fast_ptr=head;
+     do
+     {
+        slow_ptr=slow_ptr->next;
+        fast_ptr=fast_ptr->next->next;
+     } while (slow_ptr!=fast_ptr);
+     fast_ptr=head;
+     while (fast_ptr->next!=slow_ptr->next)
+     {
+       slow_ptr=slow_ptr->next;
+       fast_ptr=fast_ptr->next;
+     }
+     slow_ptr->next=nullptr;
+}
+// Count list 
+int Data::count(Data *h){
+    Data *check=h;
+    int res=1;
+    while (check->next!=h)
+    {
+        res++;
+        check=check->next;
+    }
+    return res;
+}
+//lenght of detect loop
+int Data::length(){
+    Data *slow_ptr=head;
+    Data *fast_ptr=head;
+    int x=0;
+    while(fast_ptr!=nullptr && fast_ptr->next!=nullptr){
+        slow_ptr=slow_ptr->next;
+        fast_ptr=fast_ptr->next->next;
+        if(slow_ptr==fast_ptr){
+            return count(slow_ptr);
+        }
+    }
+}
+void menu(){
+    Data obj;
+    int ch;
+    while (true)
+    {
+       cout<<"1.Add node"<<endl
+            <<"2.Show all node"<<endl
+            <<"3.Detect cycle"<<endl
+            <<"4.check Detect cycle"<<endl
+            <<"5.Fixed Detect cycle"<<endl
+            <<"6.lenght of detect cycle"<<endl
+            <<"choice option:";
+            cin>>ch;
+            switch (ch)
+            {
+            case 1:
+                obj.Add();
+                break;
+            case 2:
+                obj.print();
+                break;    
+            case 3:
+                cout<<"Enter position of detect cycle:";
+                int x;
+                cin>>x;
+                obj.make_delected(x);
+                break;
+            case 4:
+                cout<<obj.detect_loop()<<endl;
+                break;  
+            case 5:
+                obj.fixed_detect_loop();
+                cout<<"Successfully fixed detect cycle"<<endl;    
+                break; 
+            case 6:
+               cout<< obj.length()<<endl;
+                break;      
+            default:
+                cout<<"Wrong choice option !";
+                break;
+            }
+            system("pause");
+            system("CLS");
+    }
+    
+}
+
+int main()
+{
+    menu();
+return 0;
+}
