@@ -1,0 +1,72 @@
+//Find & Remove Nth node from end
+package LinkedList;
+
+public class RemoveNthNode {
+    class Node {
+        int data;
+        Node next;
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public Node head;
+    public Node tail;
+    public static int size = 0;
+
+    // Add node in list...
+    public void addNode(int data) {
+        Node newNode = new Node(data);
+        size++;
+        if (head == null) {
+            head = tail = newNode;
+            return;
+        }
+        tail.next = newNode;
+        tail = newNode;
+    }
+
+    // Print List
+    public void print(Node head) {
+        if (head == null) {
+            System.out.print("null");
+            return;
+        }
+        System.out.print(head.data + "->");
+        print(head.next);
+    }
+
+    // Remove nth node from last node 
+    public int removeNth(int n) {
+        Node knot = head;
+        int idx = size - n;
+        int i = 0;
+        while (i < idx - 1) {
+            knot = knot.next;
+            i++;
+        }
+        int x = knot.next.data;
+        Node store = knot.next.next;
+        size--;
+        knot.next.next = null;
+        knot.next = store;
+        return x;
+
+    }
+
+    public static void main(String[] args) {
+        RemoveNthNode ll = new RemoveNthNode();
+        ll.addNode(1);
+        ll.addNode(2);
+        ll.addNode(3);
+        ll.addNode(4);
+        ll.addNode(5);
+        ll.addNode(6);
+        ll.print(ll.head);
+        System.out.println(ll.removeNth(4));
+        ll.print(ll.head);
+
+    }
+}
