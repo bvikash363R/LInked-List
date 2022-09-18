@@ -42,16 +42,15 @@ public class RemoveNthNode {
     public int removeNth(int n) {
         Node knot = head;
         int idx = size - n;
-        int i = 0;
-        while (i < idx - 1) {
+        int i = 1;
+        while (i < idx) {
             knot = knot.next;
             i++;
         }
         int x = knot.next.data;
-        Node store = knot.next.next;
+        knot.next = knot.next.next;
         size--;
-        knot.next.next = null;
-        knot.next = store;
+       
         return x;
 
     }
