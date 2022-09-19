@@ -1,0 +1,99 @@
+package LinkedList;
+
+public class MargeSortLL {
+    static class Node {
+        int data;
+        Node next;
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public static Node head;
+    public static Node tail;
+    // Add node in list
+    public void addNode(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = tail = newNode;
+            return;
+        }
+        tail.next = newNode;
+        tail = newNode;
+    }
+   // Print function
+    public void print() {
+        Node paint = head;
+        while (paint != null) {
+            System.out.print(paint.data + "->");
+            paint = paint.next;
+        }
+        System.out.println("null");
+    }
+    // Get middle node...
+    private static Node getMidNode(Node head) {
+        Node slow = head;
+        Node fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+    // marge node function...
+    private static Node marge(Node head1, Node head2) {
+        Node margeNode = new Node(-1);
+        Node temp = margeNode;
+        while (head1 != null && head2 != null) {
+            if (head1.data <= head2.data) {
+                temp.next = head1;
+                head1 = head1.next;
+                temp = temp.next;
+            } else {
+                temp.next = head2;
+                head2 = head2.next;
+                temp = temp.next;
+            }
+        }
+        while (head1 != null) {
+            temp.next = head1;
+            head1 = head1.next;
+            temp = temp.next;
+        }
+        while (head2 != null) {
+            temp.next = head2;
+            head2 = head2.next;
+            temp = temp.next;
+        }
+        return margeNode.next;
+    }
+    // Marge sort function
+    public static Node margeSort(Node head) {
+        // find middle node
+        if(head == null || head.next == null){
+            return head;
+        }
+        Node midNode = getMidNode(head);
+        Node rightHead = midNode.next;
+        midNode.next = null;
+        Node newLeft = margeSort(head);
+        Node newRight = margeSort(rightHead);
+        // marge
+        return marge(newLeft, newRight);
+
+    }
+
+    public static void main(String[] args) {
+        MargeSortLL ll = new MargeSortLL();
+        ll.addNode(5);
+        ll.addNode(4);
+        ll.addNode(3);
+        ll.addNode(2);
+        ll.addNode(1);
+        ll.print();
+        ll.head = ll.margeSort(ll.head);
+        ll.print();
+    }
+}
