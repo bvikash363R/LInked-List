@@ -1,0 +1,90 @@
+package LinkedList.Dubbly;
+
+public class DubblyList {
+    class Node {
+        int data;
+        Node prev;
+        Node next;
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+            this.prev = null;
+        }
+    }
+
+    public static Node head;
+    public static Node tail;
+    public static int size;
+
+    // Add node first
+    public void addFirst(int data) {
+        Node newNode = new Node(data);
+        size++;
+        if (head == null) {
+            head = tail = newNode;
+            return;
+        }
+        head.prev = newNode;
+        newNode.next = head;
+        head = newNode;
+    }
+
+    // add node last...
+    public void addLast(int data) {
+        Node newNode = new Node(data);
+        size++;
+        if (head == null) {
+            head = tail = newNode;
+            return;
+        }
+        tail.next = newNode;
+        newNode.prev = tail;
+        tail = newNode;
+    }
+
+    // remove last node
+    public void removelast() {
+        if (head == null) {
+            System.out.println("Dubbly list is empty");
+            return;
+        }
+        size--;
+        tail = tail.prev;
+        tail.next = null;
+    }
+
+    // remove frist node
+    public void removeFrist() {
+        if (head == null) {
+            System.out.println("Dubbly list is empty");
+            return;
+        }
+        size--;
+        head = head.next;
+        head.prev = null;
+    }
+    // print node 
+    public void print(){
+        Node knot =head;
+        while(knot!=null){
+            System.out.print(knot.data+"->");
+            knot= knot.next;
+        }
+        System.out.println("null");
+    }
+    public static void main(String[] args) {
+        DubblyList dll = new DubblyList();
+        dll.addFirst(1);
+        dll.addFirst(2);
+        dll.addFirst(3);
+        dll.addLast(4);
+        dll.addLast(5);
+        dll.addLast(6);
+        dll.print();
+        dll.removeFrist();
+        dll.removelast();
+        dll.print();
+    }
+
+}
