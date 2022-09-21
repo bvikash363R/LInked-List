@@ -68,7 +68,7 @@ public class DubblyList {
     public void print(){
         Node knot =head;
         while(knot!=null){
-            System.out.print(knot.data+"->");
+            System.out.print(knot.data+"<->");
             knot= knot.next;
         }
         System.out.println("null");
